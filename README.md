@@ -25,3 +25,5 @@ Unityを利用し，PowerPointのスライドデータを読み上げ音声付�
 - [Newtonsoft.Json](https://www.nuget.org/packages/Newtonsoft.Json/)
 - [Office](https://www.nuget.org/packages/Office/)
 - [stdole](https://www.nuget.org/packages/stdole/)
+
+- [Watson Text To Speech](https://www.ibm.com/jp-ja/cloud/watson-text-to-speech)
