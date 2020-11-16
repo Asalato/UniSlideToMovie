@@ -5,6 +5,12 @@ using System.Text;
 using System.Threading;
 using UnityEngine;
 
+/// <summary>
+/// 処理の進行を制御
+/// </summary>
+/// <remarks>
+/// Start関数で初期化から各リクエストをすべて実行
+/// </remarks>>
 public class Manager : MonoBehaviour
 {
     [SerializeField] private LoadSlide loadSlide;
@@ -21,6 +27,8 @@ public class Manager : MonoBehaviour
         generateAudio.Init();
         loadSlide.Init(d => _context.Post(_ =>
         {
+            // スライドの読み込みは非同期に行っているので，ここで同期処理に戻す
+            // AudioClipとTexture2Dの作成はメインスレッドでしかできないので
             Debug.Log("Convert data.");
             var slide = ConvertRawData(d);
             Debug.Log($"Total {slide.Length} slides load completed.");
@@ -28,12 +36,23 @@ public class Manager : MonoBehaviour
         }, null));
     }
 
+    /// <summary>
+    /// 画像のパスとテキストからなるスライド情報からTexture2DとAudioClipを取得する
+    /// </summary>
+    /// <param name="data"></param>
+    /// <returns></returns>
     private SlideData[] ConvertRawData(IEnumerable<SlideDataRaw> data)
         => data.Select(item => new SlideData()
             {image = LoadImage(item.imageFilePath), clip = CreateAudio(item.note)}).ToArray();
 
+    /// <summary>
+    /// テキストからAudioClipを作成
+    /// </summary>
+    /// <param name="text"></param>
+    /// <returns></returns>
     private AudioClip CreateAudio(string text)
     {
+        // 長いテキストを分割
         var wavs = new List<WAV>();
         var sb = new StringBuilder();
         foreach (var cha in text)
@@ -46,10 +65,16 @@ public class Manager : MonoBehaviour
 
         if (sb.Length > 1) wavs.Add(new WAV(generateAudio.GenerateBinary(sb.ToString())));
 
+        // 分割された文の合成
         var result = WAV.Combine(wavs.ToArray());
         return result.CreateAudioClip("Audio");
     }
 
+    /// <summary>
+    /// 画像を読み込み
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
     private static Texture2D LoadImage(string path)
     {
         Debug.Log($"[LoadImage] Load image from {path}");

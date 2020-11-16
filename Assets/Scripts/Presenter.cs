@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// スライド表示，ページ送り，ナレーション再生を行う
+/// </summary>
 public class Presenter : MonoBehaviour
 {
     [SerializeField] private RawImage image;
@@ -9,6 +12,10 @@ public class Presenter : MonoBehaviour
     private int _currentIndex;
     private SlideData[] _slide;
 
+    /// <summary>
+    /// スライド情報を設定し，表示を開始する
+    /// </summary>
+    /// <param name="data"></param>
     public void StartPresentation(SlideData[] data)
     {
         Debug.Log("[Presenter] Start presentation.");

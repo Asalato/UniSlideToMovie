@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.Office.Core;
 using UnityEngine;
 
+/// <summary>
+/// PowerPointプレゼンテーションファイルを読み込み，スライド画像を作成しノートを読み込む
+/// </summary>
 public class LoadSlide : MonoBehaviour
 {
     [SerializeField] private string slidePath;
@@ -12,6 +15,10 @@ public class LoadSlide : MonoBehaviour
 
     private SlideDataRaw[] slides = null;
 
+    /// <summary>
+    /// スライドを読み込む
+    /// </summary>
+    /// <param name="action">読み込みが完了した際のアクション</param>
     public void Init(Action<SlideDataRaw[]> action)
     {
         if (string.IsNullOrEmpty(slidePath) || string.IsNullOrEmpty(temporaryFilePath))

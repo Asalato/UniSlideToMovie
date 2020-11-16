@@ -4,6 +4,9 @@ using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
+/// <summary>
+/// Watson Text To Speechを利用し音声合成をリクエストする
+/// </summary>
 public class GenerateAudio : MonoBehaviour
 {
     [SerializeField] private string apiKey;
@@ -15,6 +18,9 @@ public class GenerateAudio : MonoBehaviour
     private string _authorizationKey;
     private bool _cancelled = false;
 
+    /// <summary>
+    /// APIキーからアクセストークンを取得
+    /// </summary>
     public void Init()
     {
         Debug.Log("[GenerateAudio] Watson authorization started.");
@@ -40,6 +46,11 @@ public class GenerateAudio : MonoBehaviour
         Debug.Log("[GenerateAudio] Watson authorization succeeded.");
     }
 
+    /// <summary>
+    /// 音声合成リクエストを送信し，バイナリの合成結果を返す
+    /// </summary>
+    /// <param name="text"></param>
+    /// <returns></returns>
     public byte[] GenerateBinary(string text)
     {
         Debug.Log($"[GenerateAudio] Send text: {text}");
